@@ -3,10 +3,12 @@ package com.example.myapplication;
 import java.util.ArrayList;
 import android.view.View;
 
-public class SummaryPageDisplay extends Display {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class SummaryPageActivity extends AppCompatActivity {
     private ArrayList<Appointment> myAppointments;
-    public SummaryPageDisplay(ArrayList<Appointment> appoints){myAppointments = appoints;}
-    @Override
+    public SummaryPageActivity(ArrayList<Appointment> appoints){myAppointments = appoints;}
+
     public void displayView(){}
     public void onClickReturn(){}
     public void onClickDelete(View view){}
