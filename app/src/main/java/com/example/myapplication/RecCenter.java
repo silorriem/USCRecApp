@@ -1,12 +1,13 @@
 package com.example.myapplication;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.*;
 
-public class RecCenter {
+public class RecCenter implements Serializable {
     String name;
     String longitude;
     String latitude;
-    List<TimeSlot> timeSlots;
+    ArrayList<TimeSlot> timeSlots;
 
     // getters and setters
     public String getName() {
@@ -33,11 +34,11 @@ public class RecCenter {
         this.latitude = latitude;
     }
 
-    public List<TimeSlot> getTimeSlots() {
+    public ArrayList<TimeSlot> getTimeSlots() {
         return timeSlots;
     }
 
-    public void setTimeSlots(List<TimeSlot> timeSlots) {
+    public void setTimeSlots(ArrayList<TimeSlot> timeSlots) {
         this.timeSlots = timeSlots;
     }
 
