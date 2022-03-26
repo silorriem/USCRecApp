@@ -21,11 +21,12 @@ public class MapActivity extends AppCompatActivity {
     public void displayRec(){}
     public void displayRecCenter(){}
     public void onClickRecCenter(View view){
-        Intent intent = new Intent(this, BookingPageDisplay.class);
+        Intent intent = new Intent(this, BookingPageActivity.class);
         startActivity(intent);
     }
-    public void onClickWindow(View view){
+    public void onClickWindow(View view, RecCenter recCenter){
         Intent intent = new Intent(this, SummaryPageDisplay.class);
+        intent.putExtra("RecCenter", recCenter.name);
         startActivity(intent);
     }
 }
