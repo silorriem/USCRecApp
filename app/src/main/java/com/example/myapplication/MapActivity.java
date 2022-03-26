@@ -7,10 +7,8 @@ import java.util.ArrayList;
 
 public class MapActivity extends AppCompatActivity {
     private ArrayList<RecCenter> recCentersList;
-    private SummaryPageDisplay sumPage;
-    public MapActivity(ArrayList<RecCenter> recs, SummaryPageDisplay sum){
+    public MapActivity(ArrayList<RecCenter> recs){
         recCentersList = recs;
-        sumPage = sum;
     }
     public void displayView(){}
     public void displayRec(){}
