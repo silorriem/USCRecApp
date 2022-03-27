@@ -1,51 +1,29 @@
 package com.example.myapplication;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
-public class TimeSlot {
-    Integer startingHour;
-    Integer startingMinute;
-    Integer endingHour;
-    Integer endingMinute;
+public class TimeSlot implements Serializable {
+    final Integer duration = 1;
     Date date;
-    boolean available;
     Integer capacity;
-    List<User> waitingList;
+    int currentRegistered;
+    List<String> waitingList;
+
+    public TimeSlot(){
+        date = new Date();
+        capacity = 1;
+        waitingList = new LinkedList<>();
+        currentRegistered = 0;
+    }
+
+    public TimeSlot(Date date, int capacity){
+
+    }
 
     // getters and setters
-    public Integer getStartingHour() {
-        return startingHour;
-    }
-
-    public void setStartingHour(Integer startingHour) {
-        this.startingHour = startingHour;
-    }
-
-    public Integer getStartingMinute() {
-        return startingMinute;
-    }
-
-    public void setStartingMinute(Integer startingMinute) {
-        this.startingMinute = startingMinute;
-    }
-
-    public Integer getEndingHour() {
-        return endingHour;
-    }
-
-    public void setEndingHour(Integer endingHour) {
-        this.endingHour = endingHour;
-    }
-
-    public Integer getEndingMinute() {
-        return endingMinute;
-    }
-
-    public void setEndingMinute(Integer endingMinute) {
-        this.endingMinute = endingMinute;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -55,11 +33,7 @@ public class TimeSlot {
     }
 
     public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
+        return currentRegistered < capacity;
     }
 
     public Integer getCapacity() {
@@ -70,39 +44,40 @@ public class TimeSlot {
         this.capacity = capacity;
     }
 
-    public List<User> getWaitingList() {
+    public void register(User user){
+        if (isAvailable()){
+            currentRegistered++;
+            addToWaitingList(user);
+        }
+    }
+
+    public List<String> getWaitingList() {
         return waitingList;
     }
 
-    public void setWaitingList(List<User> waitingList) {
+    public void setWaitingList(List<String> waitingList) {
         this.waitingList = waitingList;
     }
 
     // other methods
     void addToWaitingList(User user) {
-        // TODO
+        waitingList.add(user.getUSCID());
     }
 
     void notifyUsersInWaitingList() {
         // TODO
     }
 
+    //pop the first user from waitlist
     void removeFromWaitingList() {
         // TODO
+        waitingList.remove(0);
     }
 
     @Override
     public String toString() {
         // TODO
-        return "TimeSlot{" +
-                "startingHour=" + startingHour +
-                ", startingMinute=" + startingMinute +
-                ", endingHour=" + endingHour +
-                ", endingMinute=" + endingMinute +
-                ", date=" + date +
-                ", available=" + available +
-                ", capacity=" + capacity +
-                ", waitingList=" + waitingList +
-                '}';
+        int remain = capacity - currentRegistered;
+        return date.toString() + " current available spots: "+ (Math.max(remain, 0));
     }
 }

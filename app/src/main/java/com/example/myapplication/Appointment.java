@@ -1,6 +1,9 @@
 package com.example.myapplication;
 
-public class Appointment {
+import java.io.Serializable;
+import java.util.Date;
+
+public class Appointment implements Serializable {
     RecCenter location;
     TimeSlot timeInterval;
     boolean successfullyBooked;
@@ -40,6 +43,11 @@ public class Appointment {
     }
 
     // other methods
+
+    public String toString(){
+        java.util.Date date = timeInterval.getDate();
+        return location.name + "at "+ date.toString();
+    }
 
     void remind(Appointment appointment) {
 
