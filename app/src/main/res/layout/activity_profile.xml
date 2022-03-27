@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="net.simplifiedlearning.firebaseauth.ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:background="@color/colorPrimary">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tap on camera to choose profile picture"
+        android:text="Tap on Tommy Trojan to choose profile picture"
         android:textAlignment="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/editText"
+         />
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -27,33 +28,36 @@
             android:id="@+id/imageView"
             android:layout_width="170dp"
             android:layout_height="170dp"
-            android:layout_centerHorizontal="true"
-            android:layout_margin="20dp"
-            android:background="@drawable/icon_camera"
-            android:scaleType="centerCrop" />
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/tommy_trojan"
+            android:scaleType="centerCrop"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ProgressBar
-            android:id="@+id/progressbar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
-
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <EditText
-        android:id="@+id/editTextDisplayName"
+        android:id="@+id/editTextUSCID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Display Name" />
+        android:hint="Enter USC ID Number"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColorHint="@color/editText"
+        android:minHeight="48dp" />
 
     <TextView
         android:id="@+id/textViewVerified"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Verified"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+        android:textSize="20sp"
+        android:fontFamily="sans-serif"
+        android:textColor="@color/editText" />
 
     <Button
         android:id="@+id/buttonSave"
@@ -65,7 +69,14 @@
         android:paddingLeft="55dp"
         android:paddingRight="55dp"
         android:text="Save"
-        android:textAllCaps="false" />
+        android:textAllCaps="false"
+        android:textColor="@color/colorAccent" />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
 
 </LinearLayout>

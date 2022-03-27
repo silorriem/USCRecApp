@@ -22,7 +22,7 @@
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="220dp"
         android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
@@ -41,14 +41,13 @@
             android:paddingBottom="15dp"
             android:paddingLeft="5dp"
             android:textColorHint="@color/editText"
-            android:textSize="20sp"
-            android:background="@drawable/edit_text_disp"/>
+            android:textSize="20sp" />
+
 
         <EditText
             android:id="@+id/editTextPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_disp"
             android:fontFamily="sans-serif"
             android:hint="password"
             android:inputType="textPassword"
