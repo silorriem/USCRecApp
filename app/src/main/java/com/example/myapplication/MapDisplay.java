@@ -6,11 +6,11 @@ import java.util.ArrayList;
 
 public class MapDisplay extends Display {
     private ArrayList<RecCenter> recCentersList;
-    private SummaryPageDisplay sumPage;
-    public MapDisplay(ArrayList<RecCenter> recs, SummaryPageDisplay sum){
-        recCentersList = recs;
-        sumPage = sum;
-    }
+//    private SummaryPageDisplay sumPage;
+//    public MapDisplay(ArrayList<RecCenter> recs, SummaryPageDisplay sum){
+//        recCentersList = recs;
+//        sumPage = sum;
+//    }
     @Override
     public void displayView(){}
     public void displayRec(){}

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">USCRecApp</string>
+    <string name="login_title">USCRecApp Login</string>
+    <string name="signup_title">USCRecApp Signup</string>
 </resources>
