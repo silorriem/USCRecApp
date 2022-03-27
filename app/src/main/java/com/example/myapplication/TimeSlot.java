@@ -1,9 +1,10 @@
 package com.example.myapplication;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class TimeSlot {
+public class TimeSlot implements Serializable {
     final Integer duration = 1;
     Date date;
     boolean available;

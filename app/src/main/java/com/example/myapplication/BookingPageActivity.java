@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.content.Intent;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -27,7 +28,7 @@ public class BookingPageActivity extends AppCompatActivity {
 
         // get the rec center object from the intent
         Intent intent = getIntent();
-        currentLocation = (RecCenter)intent.getSerializableExtra("recreation center");
+        currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
 
         // fetch and store all the data fields inside multiple arrays
         ArrayList<TimeSlot> timeSlots = currentLocation.getTimeSlots();
@@ -75,15 +76,19 @@ public class BookingPageActivity extends AppCompatActivity {
         // find the view, create an array adapter to display all the time slots
         ListView listView = (ListView) findViewById(R.id.bookingPage);
 
-        // bing the adapter to the list view
+        // bind the adapter to the list view
         listView.setAdapter(mSimpleAdapter);
-    }
 
-    public void displayView(){}
-    public void displaySelection(){}
-    public RecCenter getCurrentLocation(){return currentLocation;}
-    public void setCurrentLocation(RecCenter rc){currentLocation = rc;}
-    public void onClickSelection(View view){}
+        // set up on click
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(BookingPageActivity.this, TimeSlotActivity.class);
+                intent.putExtra("TimeSlot", timeSlots.get(i));
+                startActivity(intent);
+            }
+        });
+    }
 
     // helper function for date calculation
     public Date addHoursToJavaUtilDate(Date date, int hours) {
