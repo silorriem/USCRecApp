@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -15,29 +16,31 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    FirebaseAuth mAuth;
+public class SignUpActivity extends AppCompatActivity implements View.OnClickListener{
     EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
+    private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_sign_up);
+
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
-        progressBar = findViewById(R.id.progressbar);
-        mAuth = FirebaseAuth.getInstance();
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        findViewById(R.id.textViewSignup).setOnClickListener(this);
-        findViewById(R.id.buttonLogin).setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
+        findViewById(R.id.buttonSignUp).setOnClickListener(this);
+        findViewById(R.id.textViewLogin).setOnClickListener(this);
     }
 
-    private void userLogin() {
+    private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
-
 
         if(email.isEmpty()) {
             editTextEmail.setError("Email is required");
@@ -60,18 +63,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editTextPassword.requestFocus();
         }
         progressBar.setVisibility(View.VISIBLE);
-        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
-                if (task.isSuccessful()) {
+                if(task.isSuccessful()) {
                     finish();
-                    Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    Intent intent = new Intent(SignUpActivity.this,ProfileActivity.class);
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    Log.w("Log message: ","createUserWithEmail: failure", task.getException());
+                    if (task.getException() instanceof FirebaseAuthUserCollisionException)
+                        Toast.makeText(getApplicationContext(),"User already registered",Toast.LENGTH_SHORT).show();
+                    else {
+                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -79,23 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        if (mAuth.getCurrentUser() != null) {
-            finish();
-            startActivity(new Intent(this,ProfileActivity.class));
-        }
-    }
-
-    @Override
     public void onClick(View view) {
-        if (view.getId() == R.id.textViewSignup) {
+        if (view.getId() == R.id.textViewLogin) {
             finish();
-            startActivity(new Intent(this,SignUpActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
-        else if (view.getId() == R.id.buttonLogin) {
-            userLogin();
+        else if (view.getId() == R.id.buttonSignUp) {
+            registerUser();
+
         }
     }
 }

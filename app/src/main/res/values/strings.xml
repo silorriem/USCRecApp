@@ -3,4 +3,6 @@
     <string name="bookingPage">Make a Reservation</string>
     <string name="bookingPageSignUpButton">Sign Up</string>
     <string name="bookingPageRemindMeButton">Remind Me</string>
+    <string name="login_title">USCRecApp Login</string>
+    <string name="signup_title">USCRecApp Signup</string>
 </resources>

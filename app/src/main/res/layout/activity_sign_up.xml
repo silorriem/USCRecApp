@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorPrimary"
-    tools:context=".MainActivity">
+    tools:context=".SignUpActivity">
 
 
     <ImageView
@@ -38,11 +38,10 @@
             android:hint="email"
             android:inputType="textEmailAddress"
             android:minHeight="48dp"
-            android:paddingBottom="15dp"
             android:paddingLeft="5dp"
+            android:paddingBottom="15dp"
             android:textColorHint="@color/editText"
             android:textSize="20sp" />
-
 
         <EditText
             android:id="@+id/editTextPassword"
@@ -59,26 +58,26 @@
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/buttonLogin"
+            android:id="@+id/buttonSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="7dp"
             android:padding="10dp"
             android:background="@drawable/rounded_button_solid"
-            android:text="Login"
+            android:text="Sign Up"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent"
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/textViewSignup"
+            android:id="@+id/textViewLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             android:padding="15dp"
-            android:text="Sign Up Here"
+            android:text="Log In Here"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="16sp" />
@@ -91,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:fontFamily="@font/adobe_cpr"
-        android:text="@string/login_title"
+        android:text="@string/signup_title"
         android:textAlignment="center"
         android:textColor="@color/titleColor"
         android:textSize="34sp"
