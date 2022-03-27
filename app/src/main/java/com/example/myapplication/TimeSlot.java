@@ -9,14 +9,14 @@ public class TimeSlot implements Serializable {
     final Integer duration = 1;
     Date date;
     Integer capacity;
-    List<User> currentRegistered;
-    List<User> waitingList;
+    int currentRegistered;
+    List<String> waitingList;
 
     public TimeSlot(){
         date = new Date();
         capacity = 1;
         waitingList = new LinkedList<>();
-        currentRegistered = new LinkedList<>();
+        currentRegistered = 0;
     }
 
     public TimeSlot(Date date, int capacity){
@@ -33,7 +33,7 @@ public class TimeSlot implements Serializable {
     }
 
     public boolean isAvailable() {
-        return currentRegistered.size() < capacity;
+        return currentRegistered < capacity;
     }
 
     public Integer getCapacity() {
@@ -46,23 +46,22 @@ public class TimeSlot implements Serializable {
 
     public void register(User user){
         if (isAvailable()){
-            currentRegistered.add(user);
-        }else {
+            currentRegistered++;
             addToWaitingList(user);
         }
     }
 
-    public List<User> getWaitingList() {
+    public List<String> getWaitingList() {
         return waitingList;
     }
 
-    public void setWaitingList(List<User> waitingList) {
+    public void setWaitingList(List<String> waitingList) {
         this.waitingList = waitingList;
     }
 
     // other methods
     void addToWaitingList(User user) {
-        waitingList.add(user);
+        waitingList.add(user.getUSCID());
     }
 
     void notifyUsersInWaitingList() {
@@ -78,7 +77,7 @@ public class TimeSlot implements Serializable {
     @Override
     public String toString() {
         // TODO
-        int remain = capacity - currentRegistered.size();
+        int remain = capacity - currentRegistered;
         return date.toString() + " current available spots: "+ (Math.max(remain, 0));
     }
 }
