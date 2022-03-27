@@ -31,7 +31,7 @@ public class MapActivity extends AppCompatActivity {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onClickWindow(view);
+                    onClickWindow(view, appointment);
                 }
             });
 
@@ -43,12 +43,13 @@ public class MapActivity extends AppCompatActivity {
     public void displayRec(){}
     public void displayRecCenter(){}
     public void onClickRecCenter(View view, RecCenter recCenter){
-        Intent intent = new Intent(this, SummaryPageDisplay.class);
+        Intent intent = new Intent(this, BookingPageActivity.class);
         intent.putExtra("RecCenter", recCenter);
         startActivity(intent);
     }
-    public void onClickWindow(View view){
-        Intent intent = new Intent(this, BookingPageActivity.class);
+    public void onClickWindow(View view, Appointment appointment){
+        Intent intent = new Intent(this, SummaryPageDisplay.class);
+        intent.putExtra("Appointment", appointment);
         startActivity(intent);
     }
 }
