@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import java.util.Date;
+
 public class Appointment {
     RecCenter location;
     TimeSlot timeInterval;
@@ -40,6 +42,11 @@ public class Appointment {
     }
 
     // other methods
+
+    public String toString(){
+        java.util.Date date = timeInterval.getDate();
+        return location.name + "at "+ date.toString();
+    }
 
     void remind(Appointment appointment) {
 
