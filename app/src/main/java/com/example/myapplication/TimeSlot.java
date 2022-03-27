@@ -4,48 +4,13 @@ import java.util.Date;
 import java.util.List;
 
 public class TimeSlot {
-    Integer startingHour;
-    Integer startingMinute;
-    Integer endingHour;
-    Integer endingMinute;
+    final Integer duration = 1;
     Date date;
     boolean available;
     Integer capacity;
     List<User> waitingList;
 
     // getters and setters
-    public Integer getStartingHour() {
-        return startingHour;
-    }
-
-    public void setStartingHour(Integer startingHour) {
-        this.startingHour = startingHour;
-    }
-
-    public Integer getStartingMinute() {
-        return startingMinute;
-    }
-
-    public void setStartingMinute(Integer startingMinute) {
-        this.startingMinute = startingMinute;
-    }
-
-    public Integer getEndingHour() {
-        return endingHour;
-    }
-
-    public void setEndingHour(Integer endingHour) {
-        this.endingHour = endingHour;
-    }
-
-    public Integer getEndingMinute() {
-        return endingMinute;
-    }
-
-    public void setEndingMinute(Integer endingMinute) {
-        this.endingMinute = endingMinute;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -94,15 +59,6 @@ public class TimeSlot {
     @Override
     public String toString() {
         // TODO
-        return "TimeSlot{" +
-                "startingHour=" + startingHour +
-                ", startingMinute=" + startingMinute +
-                ", endingHour=" + endingHour +
-                ", endingMinute=" + endingMinute +
-                ", date=" + date +
-                ", available=" + available +
-                ", capacity=" + capacity +
-                ", waitingList=" + waitingList +
-                '}';
+        return null;
     }
 }

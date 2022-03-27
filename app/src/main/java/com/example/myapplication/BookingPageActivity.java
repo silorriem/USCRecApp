@@ -8,7 +8,10 @@ import android.content.Intent;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class BookingPageActivity extends AppCompatActivity {
     public static RecCenter currentLocation;
@@ -23,12 +26,22 @@ public class BookingPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentLocation = (RecCenter)intent.getSerializableExtra("recreation center");
 
-        // create an arrayList of the rec center's time slots
+        // fetch and store all the data fields inside multiple arrays
         ArrayList<TimeSlot> timeSlots = currentLocation.getTimeSlots();
+        ArrayList<String> dates = new ArrayList<>();
+        ArrayList<String> times = new ArrayList<>();
+        ArrayList<String> capacities = new ArrayList<>();
+        ArrayList<String> availabilities = new ArrayList<>();
+
+        for(TimeSlot i: timeSlots) {
+            Date date = i.getDate();
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
+            String strDate = dateFormat.format(date);
+        }
 
         // find the view, create an array adapter to display all the time slots
         ListView listView = (ListView) findViewById(R.id.bookingPage);
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.booking_page, timeSlots);
+        ///ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.booking_page, timeSlots);
     }
 
     public void displayView(){}
