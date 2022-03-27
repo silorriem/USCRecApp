@@ -5,8 +5,8 @@ import java.util.*;
 
 public class RecCenter implements Serializable {
     String name;
-    String longitude;
-    String latitude;
+    double longitude;
+    double latitude;
     ArrayList<TimeSlot> timeSlots;
 
     // getters and setters
@@ -18,19 +18,19 @@ public class RecCenter implements Serializable {
         this.name = name;
     }
 
-    public String getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 

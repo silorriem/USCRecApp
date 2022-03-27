@@ -5,4 +5,5 @@
     <string name="bookingPageRemindMeButton">Remind Me</string>
     <string name="login_title">USCRecApp Login</string>
     <string name="signup_title">USCRecApp Signup</string>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>
