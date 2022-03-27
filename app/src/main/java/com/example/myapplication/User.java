@@ -59,7 +59,16 @@ public class User {
     }
 
     // other methods
-
+    public List<Appointment> getUpcoming(){
+        ArrayList<Appointment> result = new ArrayList<>();
+        for(Appointment appointment: Appointments){
+            TimeSlot timeSlot = appointment.getTimeInterval();
+            if((timeSlot.getDate().compareTo(new Date()) > 0)){
+                result.add(appointment);
+            }
+        }
+        return result;
+    }
     // insert a new appointment of the user
     void insertAppointment(Appointment appointment) {
         Appointments.add(appointment);
