@@ -39,7 +39,8 @@ public class MapActivity extends AppCompatActivity {
         ArrayAdapter adapter = new ArrayAdapter(this, R.layout.map_listview, upcomings);
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(adapter);
-        // Create a message handling object as an anonymous class.
+
+        // Create a click handler
         listView.setOnItemClickListener(messageClickedHandler);
 
     }

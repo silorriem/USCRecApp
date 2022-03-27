@@ -2,14 +2,26 @@ package com.example.myapplication;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 public class TimeSlot implements Serializable {
     final Integer duration = 1;
     Date date;
-    boolean available;
     Integer capacity;
+    List<User> currentRegistered;
     List<User> waitingList;
+
+    public TimeSlot(){
+        date = new Date();
+        capacity = 1;
+        waitingList = new LinkedList<>();
+        currentRegistered = new LinkedList<>();
+    }
+
+    public TimeSlot(Date date, int capacity){
+
+    }
 
     // getters and setters
     public Date getDate() {
@@ -21,11 +33,7 @@ public class TimeSlot implements Serializable {
     }
 
     public boolean isAvailable() {
-        return available;
-    }
-
-    public void setAvailable(boolean available) {
-        this.available = available;
+        return currentRegistered.size() < capacity;
     }
 
     public Integer getCapacity() {
@@ -34,6 +42,14 @@ public class TimeSlot implements Serializable {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
+    }
+
+    public void register(User user){
+        if (isAvailable()){
+            currentRegistered.add(user);
+        }else {
+            addToWaitingList(user);
+        }
     }
 
     public List<User> getWaitingList() {
@@ -46,20 +62,23 @@ public class TimeSlot implements Serializable {
 
     // other methods
     void addToWaitingList(User user) {
-        // TODO
+        waitingList.add(user);
     }
 
     void notifyUsersInWaitingList() {
         // TODO
     }
 
+    //pop the first user from waitlist
     void removeFromWaitingList() {
         // TODO
+        waitingList.remove(0);
     }
 
     @Override
     public String toString() {
         // TODO
-        return null;
+        int remain = capacity - currentRegistered.size();
+        return date.toString() + " current available spots: "+ (Math.max(remain, 0));
     }
 }
