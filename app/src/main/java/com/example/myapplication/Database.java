@@ -4,10 +4,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Database {
 
-    private FirebaseFirestore db;
-    public Database(){
-        db = FirebaseFirestore.getInstance();
-    }
+    static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public void addUser(User user){}
     public void changeProfile(){}
 }

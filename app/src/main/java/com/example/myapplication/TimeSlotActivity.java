@@ -31,6 +31,7 @@ public class TimeSlotActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // TODO
+
             }
         });
 
