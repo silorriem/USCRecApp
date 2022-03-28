@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else if (password.isEmpty()) {
             editTextPassword.setError("Password is required");
             editTextPassword.requestFocus();
-
         }
 
         else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {

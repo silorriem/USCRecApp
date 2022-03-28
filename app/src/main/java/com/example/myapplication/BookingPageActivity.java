@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 
 public class BookingPageActivity extends AppCompatActivity {
@@ -27,14 +28,31 @@ public class BookingPageActivity extends AppCompatActivity {
         setContentView(R.layout.booking_page);
 
         // get the rec center object from the intent
-        Intent intent = getIntent();
-        currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
+//        Intent intent = getIntent();
+//        currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
+
+        // a test rec center
+        RecCenter test = new RecCenter();
+        test.name = "Lyon Center";
+        test.latitude = 34.12345;
+        test.longitude = 108.45678;
+        test.timeSlots = new ArrayList<>();
+
+        TimeSlot temp = new TimeSlot();
+        temp.date = new GregorianCalendar(2022, Calendar.MARCH, 28).getTime();
+        temp.capacity = 5;
+        temp.currentRegistered = 0;
+        temp.waitingList = new ArrayList<>();
+
+        test.timeSlots.add(temp);
+
+        currentLocation = test;
+
 
         // fetch and store all the data fields inside multiple arrays
         ArrayList<TimeSlot> timeSlots = currentLocation.getTimeSlots();
         ArrayList<String> dates = new ArrayList<>();
         ArrayList<String> times = new ArrayList<>();
-        ArrayList<String> capacities = new ArrayList<>();
         ArrayList<String> availabilities = new ArrayList<>();
 
         for(TimeSlot i: timeSlots) {
@@ -48,11 +66,8 @@ public class BookingPageActivity extends AppCompatActivity {
             String strTime = timeFormat.format(date) + timeFormat.format(endDate);
             times.add(strTime);
 
-            String cap = Integer.toString(i.getCapacity());
-            capacities.add(cap);
-
-            String availability = String.valueOf(i.getWaitingList());
-            availabilities.add(availability);
+            String remainingSpots = Integer.toString(i.getCapacity() - i.currentRegistered);
+            availabilities.add("Remaining: " + remainingSpots);
         }
 
         // construct a list of hashmap for the content of the listView
@@ -61,7 +76,6 @@ public class BookingPageActivity extends AppCompatActivity {
             HashMap<String,Object> map = new HashMap<>();
             map.put("date", dates.get(i));
             map.put("time", times.get(i));
-            map.put("capacity", capacities.get(i));
             map.put("available", availabilities.get(i));
             listItem.add(map);
         }
@@ -70,8 +84,8 @@ public class BookingPageActivity extends AppCompatActivity {
         SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,
                 listItem,
                 R.layout.booking_page_row_items,
-                new String[]{"date", "time", "capacity", "availability"},
-                new int[]{R.id.date, R.id.time, R.id.capacity, R.id.availability});
+                new String[]{"date", "time", "availability"},
+                new int[]{R.id.date, R.id.time, R.id.availability});
 
         // find the view, create an array adapter to display all the time slots
         ListView listView = (ListView) findViewById(R.id.bookingPage);

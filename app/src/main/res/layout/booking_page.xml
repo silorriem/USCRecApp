@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:choiceMode="none"
         android:divider="@color/black"
-        android:fastScrollEnabled="true" />
+        android:fastScrollEnabled="true">
+    </ListView>
 
 </RelativeLayout>

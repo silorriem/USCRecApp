@@ -23,7 +23,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="${MAPS_API_KEY}" />
+            android:value="AIzaSyAnj2H2aqxed5U-Xoo2ZHLSSCaIKeTux2w" />
 
         <activity
             android:name=".GMapsActivity"
@@ -44,9 +44,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".BookingPageActivity"
-            android:label="@string/bookingPage" />
+            android:label="@string/bookingPage">
+        </activity>
     </application>
 
 </manifest>

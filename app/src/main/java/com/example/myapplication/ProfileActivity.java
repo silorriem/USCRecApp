@@ -163,11 +163,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 public void onFailure(@NonNull Exception e) {
                     progressBar.setVisibility(View.GONE);
                     Toast.makeText(ProfileActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-
                 }
             });
-
-
         }
     }
 

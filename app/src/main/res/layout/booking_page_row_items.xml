@@ -16,19 +16,11 @@
         android:layout_below="@+id/date"
         android:textSize="14dp"
         android:paddingLeft="14dp"/>
-
-    <TextView
-        android:id="@+id/capacity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/time"
-        android:paddingLeft="14dp"
-        android:textSize="14dp" />
     <TextView
         android:id="@+id/availability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/capacity"
+        android:layout_below="@+id/time"
         android:textSize="14dp"
         android:paddingLeft="14dp"/>
 </RelativeLayout>

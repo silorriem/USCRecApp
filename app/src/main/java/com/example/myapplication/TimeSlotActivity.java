@@ -16,8 +16,8 @@ public class TimeSlotActivity extends AppCompatActivity {
         setContentView(R.layout.time_slot_detail);
 
         // set the visibility of those two buttons
-        Button remindMe = (Button) findViewById(R.id.remindMe);
-        Button signUp = (Button) findViewById(R.id.signUp);
+        Button remindMe = findViewById(R.id.remindMe);
+        Button signUp = findViewById(R.id.signUp);
         if(currTimeSlot.isAvailable()) {
             remindMe.setEnabled(false);
             signUp.setEnabled(true);
@@ -27,19 +27,12 @@ public class TimeSlotActivity extends AppCompatActivity {
         }
 
         // set on click activity
-        remindMe.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
+        remindMe.setOnClickListener((View view) -> {
 
-            }
         });
 
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO
-            }
+        signUp.setOnClickListener((View view) -> {
+
         });
     }
 }
