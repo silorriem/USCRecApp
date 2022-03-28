@@ -6,4 +6,5 @@
     <string name="login_title">USCRecApp Login</string>
     <string name="signup_title">USCRecApp Signup</string>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="title_activity_gmaps">GMapsActivity</string>
 </resources>
