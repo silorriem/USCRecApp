@@ -23,8 +23,12 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="YOUR_API_KEY" />
+            android:value="${MAPS_API_KEY}" />
 
+        <activity
+            android:name=".GMapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_gmaps" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
@@ -42,7 +46,7 @@
         </activity>
         <activity
             android:name=".BookingPageActivity"
-            android:label="@string/bookingPage"></activity>
+            android:label="@string/bookingPage" />
     </application>
 
 </manifest>
