@@ -3,13 +3,16 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.myapplication.databinding.ActivityGmapsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -36,6 +39,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     /**
@@ -68,8 +72,22 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         //put marker to map
         for(RecCenter center: recCenters){
             LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
-            mMap.addMarker(new MarkerOptions().position(latLng).title(center.name));
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(center.name));
+            marker.setTitle(center.name);
             mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         }
+
+        //set marker onclick event
+        GoogleMap.OnMarkerClickListener listener = new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(@NonNull Marker marker) {
+                Intent intent = new Intent(GMapsActivity.this, BookingPageActivity.class);
+                intent.putExtra("RecCenter", marker.getTitle());
+                startActivity(intent);
+
+                return false;
+            }
+        };
+        mMap.setOnMarkerClickListener(listener);
     }
 }
