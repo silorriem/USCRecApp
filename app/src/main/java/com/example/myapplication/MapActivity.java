@@ -62,7 +62,7 @@ public class MapActivity extends AppCompatActivity {
         startActivity(intent);
     }
     public void onClickWindow(View view){
-        Intent intent = new Intent(this, SummaryPageDisplay.class);
+        Intent intent = new Intent(this, SummaryPageActivity.class);
         startActivity(intent);
     }
 }
