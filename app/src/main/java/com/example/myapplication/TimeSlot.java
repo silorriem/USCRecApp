@@ -14,27 +14,18 @@ public class TimeSlot implements Serializable {
     String slotId;
     List<String> waitingList;
 
-    // getters and setters
-    public Integer getCurrentRegistered() {
-        return currentRegistered;
-    }
-
-    public void setCurrentRegistered(Integer currentRegistered) {
-        this.currentRegistered = currentRegistered;
-    }
-
-    public TimeSlot() {
+    public TimeSlot(){
         date = new Date();
         capacity = 1;
         waitingList = new LinkedList<>();
         currentRegistered = 0;
     }
 
-    public TimeSlot(Date d, int c) {
-        date = d;
-        capacity = c;
+    public TimeSlot(Date date, int capacity){
+
     }
 
+    // getters and setters
     public Date getDate() {
         return date;
     }
@@ -54,6 +45,19 @@ public class TimeSlot implements Serializable {
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
+
+    public void setCurrentRegistered(int currentRegistered) {
+        this.currentRegistered = currentRegistered;
+    }
+
+    public int getCurrentRegistered() {
+        return currentRegistered;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
 
     public void register(User user){
         if (isAvailable()){
@@ -77,6 +81,9 @@ public class TimeSlot implements Serializable {
     public void setSlotId(String slotId) {
         this.slotId = slotId;
     }
+
+
+
 
     public List<String> getWaitingList() {
         return waitingList;
