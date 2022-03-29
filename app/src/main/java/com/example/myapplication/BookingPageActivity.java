@@ -1,14 +1,27 @@
 package com.example.myapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.nfc.Tag;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.content.Intent;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,6 +33,8 @@ import java.util.HashMap;
 
 public class BookingPageActivity extends AppCompatActivity {
     public static RecCenter currentLocation;
+    public static final String TAG = "Firebase Message: ";
+    ArrayList<TimeSlot> timeSlots;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +42,12 @@ public class BookingPageActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.booking_page);
 
+        // enable tool bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // get the rec center object from the intent
-//        Intent intent = getIntent();
-//        currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
+        Intent intent = getIntent();
+        currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
 
         // a test rec center
         RecCenter test = new RecCenter();
@@ -38,16 +56,29 @@ public class BookingPageActivity extends AppCompatActivity {
         test.longitude = 108.45678;
         test.timeSlots = new ArrayList<>();
 
-        TimeSlot temp = new TimeSlot();
-        temp.date = new GregorianCalendar(2022, Calendar.MARCH, 28).getTime();
-        temp.capacity = 5;
-        temp.currentRegistered = 0;
-        temp.waitingList = new ArrayList<>();
+        TimeSlot temp1 = new TimeSlot();
+        temp1.date = new GregorianCalendar(2022, Calendar.MARCH, 28).getTime();
+        temp1.capacity = 5;
+        temp1.currentRegistered = 0;
+        temp1.waitingList = new ArrayList<>();
 
-        test.timeSlots.add(temp);
+        TimeSlot temp2 = new TimeSlot();
+        temp2.date = new GregorianCalendar(2022, Calendar.MARCH, 29).getTime();
+        temp2.capacity = 10;
+        temp2.currentRegistered = 3;
+        temp2.waitingList = new ArrayList<>();
+
+        TimeSlot temp3 = new TimeSlot();
+        temp3.date = new GregorianCalendar(2022, Calendar.MARCH, 28).getTime();
+        temp3.capacity = 2;
+        temp3.currentRegistered = 2;
+        temp3.waitingList = new ArrayList<>();
+
+        test.timeSlots.add(temp1);
+        test.timeSlots.add(temp2);
+        test.timeSlots.add(temp3);
 
         currentLocation = test;
-
 
         // fetch and store all the data fields inside multiple arrays
         ArrayList<TimeSlot> timeSlots = currentLocation.getTimeSlots();
@@ -57,17 +88,17 @@ public class BookingPageActivity extends AppCompatActivity {
 
         for(TimeSlot i: timeSlots) {
             Date date = i.getDate();
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-            String strDate = dateFormat.format(date);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String strDate = "Date: " + dateFormat.format(date);
             dates.add(strDate);
 
             DateFormat timeFormat = new SimpleDateFormat("hh:mm:ss");
             Date endDate = addHoursToJavaUtilDate(date, 1);
-            String strTime = timeFormat.format(date) + timeFormat.format(endDate);
+            String strTime = "Time: " + timeFormat.format(date) + " - " +timeFormat.format(endDate);
             times.add(strTime);
 
-            String remainingSpots = Integer.toString(i.getCapacity() - i.currentRegistered);
-            availabilities.add("Remaining: " + remainingSpots);
+            String remainingSpots = "Remaining: " + Integer.toString(i.getCapacity() - i.currentRegistered);
+            availabilities.add(remainingSpots);
         }
 
         // construct a list of hashmap for the content of the listView
@@ -84,7 +115,7 @@ public class BookingPageActivity extends AppCompatActivity {
         SimpleAdapter mSimpleAdapter = new SimpleAdapter(this,
                 listItem,
                 R.layout.booking_page_row_items,
-                new String[]{"date", "time", "availability"},
+                new String[]{"date", "time", "available"},
                 new int[]{R.id.date, R.id.time, R.id.availability});
 
         // find the view, create an array adapter to display all the time slots
@@ -99,6 +130,7 @@ public class BookingPageActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(BookingPageActivity.this, TimeSlotActivity.class);
                 intent.putExtra("TimeSlot", timeSlots.get(i));
+                intent.putExtra("RecCenter", currentLocation);
                 startActivity(intent);
             }
         });
@@ -110,5 +142,16 @@ public class BookingPageActivity extends AppCompatActivity {
         calendar.setTime(date);
         calendar.add(Calendar.HOUR_OF_DAY, hours);
         return calendar.getTime();
+    }
+
+    // enable the back button
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

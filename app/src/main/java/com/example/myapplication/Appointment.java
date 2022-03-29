@@ -4,18 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Appointment implements Serializable {
-    RecCenter location;
+    String recCenterName;
     TimeSlot timeInterval;
     boolean successfullyBooked;
-    User user;
 
     // getters and setters
-    public RecCenter getLocation() {
-        return location;
+    public String getRecCenterName() {
+        return recCenterName;
     }
 
-    public void setLocation(RecCenter location) {
-        this.location = location;
+    public void setRecCenterName(String recCenterName) {
+        this.recCenterName = recCenterName;
     }
 
     public TimeSlot getTimeInterval() {
@@ -34,19 +33,11 @@ public class Appointment implements Serializable {
         this.successfullyBooked = successfullyBooked;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     // other methods
 
     public String toString(){
         java.util.Date date = timeInterval.getDate();
-        return location.name + "at "+ date.toString();
+        return recCenterName;
     }
 
     void remind(Appointment appointment) {

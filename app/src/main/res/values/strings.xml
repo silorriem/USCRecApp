@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">USCRecApp</string>
     <string name="bookingPage">Make a Reservation</string>
-    <string name="bookingPageSignUpButton">Sign Up</string>
+    <string name="bookingPageReserveButton">Reserve</string>
     <string name="bookingPageRemindMeButton">Remind Me</string>
     <string name="login_title">USCRecApp Login</string>
     <string name="signup_title">USCRecApp Signup</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_gmaps">GMapsActivity</string>
+    <string name="appointmentSucceed">Successfully reserved!</string>
+    <string name="appointmentFailed">Something went wrong...</string>
 </resources>

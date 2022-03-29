@@ -1,13 +1,27 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+
 public class TimeSlotActivity extends AppCompatActivity {
+    RecCenter currRecCenter;
     TimeSlot currTimeSlot;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,15 +29,30 @@ public class TimeSlotActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.time_slot_detail);
 
+        // enable tool bar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        // add a test user
+        currentUser = new User();
+        currentUser.userName = "Thomas";
+        currentUser.USCID = "1234567890";
+        currentUser.Appointments = new ArrayList<>();
+
+        Intent intent = getIntent();
+        if(intent != null) {
+            currTimeSlot = (TimeSlot) intent.getSerializableExtra("TimeSlot");
+            currRecCenter = (RecCenter) intent.getSerializableExtra("RecCenter");
+        }
+
         // set the visibility of those two buttons
         Button remindMe = findViewById(R.id.remindMe);
-        Button signUp = findViewById(R.id.signUp);
+        Button reserve = findViewById(R.id.reserve);
         if(currTimeSlot.isAvailable()) {
             remindMe.setEnabled(false);
-            signUp.setEnabled(true);
+            reserve.setEnabled(true);
         } else {
             remindMe.setEnabled(true);
-            signUp.setEnabled(false);
+            reserve.setEnabled(false);
         }
 
         // set on click activity
@@ -31,8 +60,47 @@ public class TimeSlotActivity extends AppCompatActivity {
 
         });
 
-        signUp.setOnClickListener((View view) -> {
+        // callback function for the reserve button
+        reserve.setOnClickListener((View view) -> {
+            // add the appointment to the user's record
+            Appointment appointment = new Appointment();
+            appointment.setRecCenterName(currRecCenter.getName());
+            appointment.setTimeInterval(currTimeSlot);
+            appointment.setSuccessfullyBooked(true);
 
+            // decrease the number of available spots of the current time slot
+            currTimeSlot.setCurrentRegistered(currTimeSlot.getCurrentRegistered() + 1);
+
+            // update the
+
+            if(Database.db == null) {
+                Database.db = FirebaseFirestore.getInstance();
+            }
+            DocumentReference userRef = Database.db.collection("User").document(currentUser.getUSCID());
+            userRef.update("Appointments", FieldValue.arrayUnion(appointment)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Snackbar success = Snackbar.make(findViewById(R.id.timeSlotDetailView), R.string.appointmentSucceed, Snackbar.LENGTH_SHORT);
+                    success.show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Snackbar success = Snackbar.make(findViewById(R.id.timeSlotDetailView), R.string.appointmentFailed, Snackbar.LENGTH_SHORT);
+                    success.show();
+                }
+            });
         });
+    }
+
+    // enable the back button
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

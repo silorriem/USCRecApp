@@ -9,6 +9,8 @@ public class User {
     List<Appointment> Appointments;
 
     // the constructor
+    public User() {}
+
     public User(String userName, String USCID, String email, String photoFileName, List<Appointment> appointments) {
         this.userName = userName;
         this.USCID = USCID;

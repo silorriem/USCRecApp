@@ -9,21 +9,32 @@ public class TimeSlot implements Serializable {
     final Integer duration = 1;
     Date date;
     Integer capacity;
-    int currentRegistered;
+    Integer currentRegistered;
+    String recCenter;
+    String slotId;
     List<String> waitingList;
 
-    public TimeSlot(){
+    // getters and setters
+    public Integer getCurrentRegistered() {
+        return currentRegistered;
+    }
+
+    public void setCurrentRegistered(Integer currentRegistered) {
+        this.currentRegistered = currentRegistered;
+    }
+
+    public TimeSlot() {
         date = new Date();
         capacity = 1;
         waitingList = new LinkedList<>();
         currentRegistered = 0;
     }
 
-    public TimeSlot(Date date, int capacity){
-
+    public TimeSlot(Date d, int c) {
+        date = d;
+        capacity = c;
     }
 
-    // getters and setters
     public Date getDate() {
         return date;
     }
@@ -49,6 +60,22 @@ public class TimeSlot implements Serializable {
             currentRegistered++;
             addToWaitingList(user);
         }
+    }
+
+    public String getRecCenter() {
+        return recCenter;
+    }
+
+    public void setRecCenter(String recCenter) {
+        this.recCenter = recCenter;
+    }
+
+    public String getSlotId() {
+        return slotId;
+    }
+
+    public void setSlotId(String slotId) {
+        this.slotId = slotId;
     }
 
     public List<String> getWaitingList() {
