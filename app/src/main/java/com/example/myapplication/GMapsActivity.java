@@ -11,6 +11,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -31,6 +32,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("Hello world");
 
         binding = ActivityGmapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -63,26 +65,35 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot qry: task.getResult()){
                         RecCenter recCenter = qry.toObject(RecCenter.class);
+                        //System.out.println(recCenter.getLatitude()+" "+recCenter.getLongitude());
                         recCenters.add(recCenter);
                     }
+                }else{
+                    System.out.println("Failed to connect");
                 }
             }
         });
 
         //put marker to map
-        for(RecCenter center: recCenters){
-            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(center.name));
-            marker.setTitle(center.name);
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        }
+        LatLng lyon = new LatLng(34.024555845264075, -118.28840694512736);
+        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lyon,15));
+        LatLng cromwell = new LatLng(34.0222295647154, -118.28784044512746);
+        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track"));
+        LatLng uac = new LatLng(34.024203589076414, -118.2879799201736);
+        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim"));
+
+//        for(RecCenter center: recCenters){
+//            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
+//            mMap.addMarker(new MarkerOptions().position(latLng).title(center.getName()));
+//        }
 
         //set marker onclick event
         GoogleMap.OnMarkerClickListener listener = new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
                 Intent intent = new Intent(GMapsActivity.this, BookingPageActivity.class);
-                intent.putExtra("RecCenter", marker.getTitle());
+                intent.putExtra("RecCenter", (RecCenter) marker.getTag());
                 startActivity(intent);
 
                 return false;
