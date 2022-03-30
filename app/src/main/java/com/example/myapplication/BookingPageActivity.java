@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.nfc.Tag;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.View;
 import android.content.Intent;
@@ -22,6 +24,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,11 +34,16 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class BookingPageActivity extends AppCompatActivity {
     public static RecCenter currentLocation;
+    public static String currentRecCenter;
     public static final String TAG = "Firebase Message: ";
     ArrayList<TimeSlot> timeSlots;
+
+    private boolean queryFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,18 +58,24 @@ public class BookingPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
 
+        // assume that this activity only get a string of the recCenter's name from the intent
+        //currentRecCenter = intent.getStringExtra("RecCenter");
+        currentRecCenter = "Lyon Center";
+
         // a test rec center
         RecCenter test = new RecCenter();
         test.name = "Lyon Center";
-        test.latitude = 34.12345;
-        test.longitude = 108.45678;
+        test.latitude = 34.02465;
+        test.longitude = -118.28844;
         test.timeSlots = new ArrayList<>();
 
         TimeSlot temp1 = new TimeSlot();
         temp1.date = new GregorianCalendar(2022, Calendar.MARCH, 28).getTime();
-        temp1.capacity = 5;
+        temp1.capacity = 7;
         temp1.currentRegistered = 0;
         temp1.waitingList = new ArrayList<>();
+        temp1.recCenter = "Lyon Center";
+        temp1.slotId = "00001";
 
         TimeSlot temp2 = new TimeSlot();
         temp2.date = new GregorianCalendar(2022, Calendar.MARCH, 29).getTime();

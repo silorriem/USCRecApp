@@ -82,9 +82,6 @@ public class TimeSlot implements Serializable {
         this.slotId = slotId;
     }
 
-
-
-
     public List<String> getWaitingList() {
         return waitingList;
     }
