@@ -9,6 +9,24 @@ public class RecCenter implements Serializable {
     double latitude;
     ArrayList<TimeSlot> timeSlots;
 
+    private static ArrayList<TimeSlot> lyon_timeslot = new ArrayList<>(Arrays.asList(new TimeSlot("lyon", new Date(2022, 4, 1, 9, 0),10 )));
+    static RecCenter lyon = new RecCenter("lyon", 34.024555845264075, -118.28840694512736, lyon_timeslot);
+
+    public RecCenter(){
+        name = "";
+        latitude = 0;
+        longitude = 0;
+        timeSlots = new ArrayList<>();
+    }
+
+    public RecCenter(String name, double longitude, double latitude, ArrayList<TimeSlot> timeSlots){
+        this.name = name;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.timeSlots = timeSlots;
+    }
+
+
     // getters and setters
     public String getName() {
         return name;
