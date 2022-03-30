@@ -64,7 +64,34 @@ public class TimeSlotActivity extends AppCompatActivity {
 
         // set on click activity
         remindMe.setOnClickListener((View view) -> {
+            // add the appointment to the user's record
+            Appointment appointment = new Appointment();
+            appointment.setRecCenterName(currRecCenter.getName());
+            appointment.setTimeInterval(currTimeSlot);
+            appointment.setSuccessfullyBooked(false);
 
+            DocumentReference userRef = Database.db.collection("User").document(currentUser.getUSCID());
+            userRef.update("Appointments", FieldValue.arrayUnion(appointment)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Snackbar success = Snackbar.make(findViewById(R.id.timeSlotDetailView), R.string.reminderSucceed, Snackbar.LENGTH_SHORT);
+                    success.show();
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Snackbar success = Snackbar.make(findViewById(R.id.timeSlotDetailView), R.string.reminderFailed, Snackbar.LENGTH_SHORT);
+                    success.show();
+                }
+            });
+
+            // update the recCenter's data
+            DocumentReference recCenterRef = Database.db.collection("RecCenter").document(currRecCenter.getName());
+            recCenterRef.update("timeSlots",FieldValue.arrayRemove(currTimeSlot));
+
+            // decrease the number of available spots of the current time slot
+            currTimeSlot.addToWaitingList(currentUser);
+            recCenterRef.update("timeSlots",FieldValue.arrayUnion(currTimeSlot));
         });
 
         // callback function for the reserve button
@@ -89,8 +116,6 @@ public class TimeSlotActivity extends AppCompatActivity {
                     success.show();
                 }
             });
-
-
 
             // update the recCenter's data
             DocumentReference recCenterRef = Database.db.collection("RecCenter").document(currRecCenter.getName());

@@ -39,7 +39,6 @@ import java.util.concurrent.Executors;
 
 public class BookingPageActivity extends AppCompatActivity {
     public static RecCenter currentLocation;
-    public static String currentRecCenter;
     public static final String TAG = "Firebase Message: ";
     ArrayList<TimeSlot> timeSlots;
 
@@ -57,10 +56,6 @@ public class BookingPageActivity extends AppCompatActivity {
         // get the rec center object from the intent
         Intent intent = getIntent();
         currentLocation = (RecCenter)intent.getSerializableExtra("RecCenter");
-
-        // assume that this activity only get a string of the recCenter's name from the intent
-        //currentRecCenter = intent.getStringExtra("RecCenter");
-        currentRecCenter = "Lyon Center";
 
         // a test rec center
         RecCenter test = new RecCenter();
@@ -93,7 +88,7 @@ public class BookingPageActivity extends AppCompatActivity {
         test.timeSlots.add(temp2);
         test.timeSlots.add(temp3);
 
-        currentLocation = test;
+        // currentLocation = test;
 
         // fetch and store all the data fields inside multiple arrays
         ArrayList<TimeSlot> timeSlots = currentLocation.getTimeSlots();

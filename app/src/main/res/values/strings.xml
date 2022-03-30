@@ -8,5 +8,7 @@
     <string name="title_activity_maps">MapsActivity</string>
     <string name="title_activity_gmaps">GMapsActivity</string>
     <string name="appointmentSucceed">Successfully reserved!</string>
-    <string name="appointmentFailed">Something went wrong...</string>
+    <string name="appointmentFailed">Something went wrong with the reservation ...</string>
+    <string name="reminderSucceed">We will remind you when additional spots open!</string>
+    <string name="reminderFailed">Something went wrong with the reminder ...</string>
 </resources>
