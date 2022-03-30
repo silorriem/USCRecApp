@@ -32,7 +32,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        System.out.println("Hello world");
+        //System.out.println("Hello world");
 
         binding = ActivityGmapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -57,15 +57,16 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         ArrayList<RecCenter> recCenters = new ArrayList<>();
+        System.out.println("Map is ready");
 
         //Read RecCenter from database
         Database.db.collection("RecCenter").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
+                    System.out.println("Connection Success");
                     for (QueryDocumentSnapshot qry: task.getResult()){
                         RecCenter recCenter = qry.toObject(RecCenter.class);
-                        //System.out.println(recCenter.getLatitude()+" "+recCenter.getLongitude());
                         recCenters.add(recCenter);
                     }
                 }else{
@@ -74,14 +75,16 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             }
         });
 
+        System.out.println(recCenters.size());
+
         //put marker to map
         LatLng lyon = new LatLng(34.024555845264075, -118.28840694512736);
-        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon")).setTag(recCenters.get(0));
+        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lyon,15));
         LatLng cromwell = new LatLng(34.0222295647154, -118.28784044512746);
-        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track")).setTag(recCenters.get(1));
+        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track"));
         LatLng uac = new LatLng(34.024203589076414, -118.2879799201736);
-        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim")).setTag(recCenters.get(2));
+        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim"));
 
 //        for(RecCenter center: recCenters){
 //            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
@@ -93,7 +96,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
                 Intent intent = new Intent(GMapsActivity.this, BookingPageActivity.class);
-                intent.putExtra("RecCenter", (RecCenter) marker.getTag());
+                intent.putExtra("RecCenter", RecCenter.lyon);
                 startActivity(intent);
 
                 return false;
@@ -102,3 +105,4 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         mMap.setOnMarkerClickListener(listener);
     }
 }
+
