@@ -19,10 +19,16 @@ public class TimeSlot implements Serializable {
         capacity = 1;
         waitingList = new LinkedList<>();
         currentRegistered = 0;
+        recCenter = "";
+        slotId = "";
     }
 
-    public TimeSlot(Date date, int capacity){
-
+    public TimeSlot(String recCenter, Date date, int capacity){
+        this.date = date;
+        this.capacity = capacity;
+        currentRegistered = 0;
+        waitingList = new LinkedList<>();
+        slotId = "";
     }
 
     // getters and setters

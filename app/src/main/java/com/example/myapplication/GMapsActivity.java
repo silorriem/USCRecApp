@@ -76,12 +76,12 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
 
         //put marker to map
         LatLng lyon = new LatLng(34.024555845264075, -118.28840694512736);
-        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon"));
+        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon")).setTag(recCenters.get(0));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lyon,15));
         LatLng cromwell = new LatLng(34.0222295647154, -118.28784044512746);
-        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track"));
+        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track")).setTag(recCenters.get(1));
         LatLng uac = new LatLng(34.024203589076414, -118.2879799201736);
-        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim"));
+        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim")).setTag(recCenters.get(2));
 
 //        for(RecCenter center: recCenters){
 //            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
