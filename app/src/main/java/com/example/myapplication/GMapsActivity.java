@@ -60,31 +60,31 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         System.out.println("Map is ready");
 
         //Read RecCenter from database
-        Database.db.collection("RecCenter").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    System.out.println("Connection Success");
-                    for (QueryDocumentSnapshot qry: task.getResult()){
-                        RecCenter recCenter = qry.toObject(RecCenter.class);
-                        recCenters.add(recCenter);
-                    }
-                }else{
-                    System.out.println("Failed to connect");
-                }
-            }
-        });
-
-        System.out.println(recCenters.size());
+//        Database.db.collection("RecCenter").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    System.out.println("Connection Success");
+//                    for (QueryDocumentSnapshot qry: task.getResult()){
+//                        RecCenter recCenter = qry.toObject(RecCenter.class);
+//                        recCenters.add(recCenter);
+//                    }
+//                }else{
+//                    System.out.println("Failed to connect");
+//                }
+//            }
+//        });
+//
+//        System.out.println(recCenters.size());
 
         //put marker to map
         LatLng lyon = new LatLng(34.024555845264075, -118.28840694512736);
-        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon"));
+        mMap.addMarker(new MarkerOptions().position(lyon).title("lyon")).setTag(RecCenter.lyon);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lyon,15));
         LatLng cromwell = new LatLng(34.0222295647154, -118.28784044512746);
-        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track"));
+        mMap.addMarker(new MarkerOptions().position(cromwell).title("Cromwell Track")).setTag(RecCenter.Cromwell_Track);
         LatLng uac = new LatLng(34.024203589076414, -118.2879799201736);
-        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim"));
+        mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim")).setTag(RecCenter.uac);
 
 //        for(RecCenter center: recCenters){
 //            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
@@ -96,7 +96,12 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             @Override
             public boolean onMarkerClick(@NonNull Marker marker) {
                 Intent intent = new Intent(GMapsActivity.this, BookingPageActivity.class);
-                intent.putExtra("RecCenter", RecCenter.lyon);
+                intent.putExtra("RecCenter",
+                        marker.getTitle().equals("lyon") ?
+                        RecCenter.lyon :
+                        marker.getTitle().equals("Cromwell Track") ?
+                        RecCenter.Cromwell_Track :
+                        RecCenter.uac);
                 startActivity(intent);
 
                 return false;
