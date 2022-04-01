@@ -39,6 +39,8 @@ public class TimeSlotActivity extends AppCompatActivity {
         // enable tool bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // currentUser.setUSCID(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
         // add a test user
         currentUser = new User();
         currentUser.userName = "Thomas";
