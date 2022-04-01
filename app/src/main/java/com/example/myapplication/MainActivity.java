@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     FirebaseAuth mAuth;
+    String USCIDNumber;
     EditText editTextEmail, editTextPassword;
     ProgressBar progressBar;
     @Override
@@ -64,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
                 if (task.isSuccessful()) {
+                    USCIDNumber = mAuth.getCurrentUser().getDisplayName();
                     finish();
                     Intent intent = new Intent(MainActivity.this,ProfileActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
