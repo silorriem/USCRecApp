@@ -17,12 +17,15 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.myapplication.databinding.ActivityGmapsBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -59,23 +62,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         ArrayList<RecCenter> recCenters = new ArrayList<>();
         System.out.println("Map is ready");
 
-        //Read RecCenter from database
-//        Database.db.collection("RecCenter").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    System.out.println("Connection Success");
-//                    for (QueryDocumentSnapshot qry: task.getResult()){
-//                        RecCenter recCenter = qry.toObject(RecCenter.class);
-//                        recCenters.add(recCenter);
-//                    }
-//                }else{
-//                    System.out.println("Failed to connect");
-//                }
-//            }
-//        });
-//
-//        System.out.println(recCenters.size());
+
 
         //put marker to map
         LatLng lyon = new LatLng(34.024555845264075, -118.28840694512736);
@@ -86,10 +73,6 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
         LatLng uac = new LatLng(34.024203589076414, -118.2879799201736);
         mMap.addMarker(new MarkerOptions().position(uac).title("UAC Lap Swim")).setTag(RecCenter.uac);
 
-//        for(RecCenter center: recCenters){
-//            LatLng latLng = new LatLng(center.getLatitude(), center.getLongitude());
-//            mMap.addMarker(new MarkerOptions().position(latLng).title(center.getName()));
-//        }
 
         //set marker onclick event
         GoogleMap.OnMarkerClickListener listener = new GoogleMap.OnMarkerClickListener() {
@@ -108,6 +91,31 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
             }
         };
         mMap.setOnMarkerClickListener(listener);
+    }
+
+    public List<Appointment> readUser(String uscid){
+        List<Appointment> appointments = new ArrayList<>();
+        Database.db
+                .collection("User")
+                .whereEqualTo("USCID", uscid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()){
+                            for (QueryDocumentSnapshot doc : task.getResult()){
+                                User user = doc.toObject(User.class);
+                                appointments.addAll(user.getUpcoming());
+                            }
+                        }
+                    }
+                });
+        return appointments;
+    }
+
+    public void toSummary(View view){
+        Intent intent = new Intent(this, SignUpActivity.class);
+        startActivity(intent);
     }
 }
 

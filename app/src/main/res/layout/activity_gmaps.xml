@@ -8,11 +8,14 @@
     android:layout_height="match_parent"
     tools:context=".GMapsActivity">
 
-        <ListView
-            android:id="@+id/list_view"
-            android:layout_width="127dp"
-            android:layout_height="320dp"
-            android:cacheColorHint="#FFFFFF" />
-
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|top"
+            android:text="View your appointment"
+            android:padding="10dp"
+            android:layout_marginTop="20dp"
+            android:paddingRight="10dp"
+            android:onClick="toSummary"/>
 
 </fragment>
