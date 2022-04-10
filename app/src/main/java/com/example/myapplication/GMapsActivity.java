@@ -114,7 +114,8 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void toSummary(View view){
-        Intent intent = new Intent(this, SignUpActivity.class);
+        Intent intent = new Intent(this, SummaryPageActivity.class);
+        finish();
         startActivity(intent);
     }
 }
