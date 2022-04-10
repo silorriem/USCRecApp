@@ -40,8 +40,6 @@ public class TimeSlotActivity extends AppCompatActivity {
         // enable tool bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-
         // add a test user
         currentUser = new User();
         currentUser.userName = "Thomas";
