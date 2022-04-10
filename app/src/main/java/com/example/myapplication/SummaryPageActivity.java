@@ -60,8 +60,8 @@ public class SummaryPageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //get current User info - appointments
-        //USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-        DocumentReference userRef = Database.db.collection("User").document("1234567890");
+        USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        DocumentReference userRef = Database.db.collection("User").document(USCIDNumber);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

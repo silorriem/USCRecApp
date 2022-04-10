@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,13 +40,14 @@ public class TimeSlotActivity extends AppCompatActivity {
         // enable tool bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // currentUser.setUSCID(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+
 
         // add a test user
         currentUser = new User();
         currentUser.userName = "Thomas";
-        currentUser.USCID = "1234567890";
+        //currentUser.USCID = "1234567890";
         currentUser.Appointments = new ArrayList<>();
+        currentUser.setUSCID(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
         Intent intent = getIntent();
         if(intent != null) {

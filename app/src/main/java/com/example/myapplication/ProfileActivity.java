@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,17 +24,22 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener{
     ImageView imageView;
     EditText editTextUSCID;
     Button button;
+    Button continueButton;
     Uri uriProfileImage;
     String profileImgUrl;
     ProgressBar progressBar;
@@ -45,15 +51,21 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        if(Database.db == null) {
+            Database.db = FirebaseFirestore.getInstance();
+        }
+
         mAuth = FirebaseAuth.getInstance();
 
         editTextUSCID = (EditText) findViewById(R.id.editTextUSCID);
         imageView = (ImageView) findViewById(R.id.imageView);
         button = (Button) findViewById(R.id.buttonSave);
+        continueButton = (Button) findViewById(R.id.buttonContinue);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
         imageView.setOnClickListener(this);
         button.setOnClickListener(this);
+        continueButton.setOnClickListener(this);
         
         loadUserInfo();
 
@@ -87,6 +99,13 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         }
         else if (view.getId() == R.id.buttonSave) {
             saveUserInfo();
+        }
+
+        else if (view.getId() == R.id.buttonContinue) {
+            Intent intent = new Intent(ProfileActivity.this,GMapsActivity.class);
+            this.finish();
+            startActivity(intent);
+
         }
 
     }
@@ -123,6 +142,29 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                     }
                 });
             }
+
+            Map<String, Object> myUser = new HashMap<>();
+            ArrayList<Object> apptBlank = new ArrayList<>();
+            myUser.put("Appointments",apptBlank);
+            myUser.put("USCID", USCIDNumber);
+            myUser.put("email", user.getEmail());
+            myUser.put("photoFileName", "");
+            myUser.put("userName", USCIDNumber.replaceAll("@usc.edu",""));
+
+            Database.db.collection("User").document(USCIDNumber)
+                    .set(myUser)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d("Adding user debug: ", "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w("Adding user debug: ", "Error writing document", e);
+                        }
+                    });
         }
 
 

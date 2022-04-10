@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -23,7 +24,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class DeleteAppointmentActivity extends AppCompatActivity {
-    String recCenterName, currDate, currTime, currPrevOrCurr;
+    String recCenterName, currDate, currTime, currPrevOrCurr, USCIDNumber;
     int delNum;
     Serializable appointment;
 
@@ -65,8 +66,8 @@ public class DeleteAppointmentActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                //USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
-                DocumentReference userRef = Database.db.collection("User").document("1234567890");
+                USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+                DocumentReference userRef = Database.db.collection("User").document(USCIDNumber);
                 userRef.update("Appointments", FieldValue.arrayRemove(appointment)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
