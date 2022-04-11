@@ -88,7 +88,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.textViewLogin) {
-            finish();
             startActivity(new Intent(this, MainActivity.class));
         }
         else if (view.getId() == R.id.buttonSignUp) {

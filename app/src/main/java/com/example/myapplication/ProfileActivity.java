@@ -83,8 +83,15 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
 
             }
 
+            if(user.getPhotoUrl() != null)
+            Log.d("Loading User Debug",user.getPhotoUrl().toString());
+            else
+                Log.d("Loading User Debug","no user photo url");
             if (user.getDisplayName() != null) {
                 editTextUSCID.setText(user.getDisplayName());
+            }
+            else {
+                Log.d("Loading User Debug","no USCID");
             }
 
         }
@@ -195,7 +202,14 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(View.GONE);
 
-                    profileImgUrl = taskSnapshot.getMetadata().getReference().getDownloadUrl().toString();
+                    Task<Uri> result = taskSnapshot.getStorage().getDownloadUrl();
+                    result.addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            profileImgUrl = uri.toString();
+                        }
+                    });
+
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
