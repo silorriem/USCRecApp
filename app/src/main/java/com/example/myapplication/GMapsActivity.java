@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -114,6 +115,7 @@ public class GMapsActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     public void toSummary(View view){
+        Log.d("Map Activity debug: ","entered toSummary");
         Intent intent = new Intent(this, SummaryPageActivity.class);
         finish();
         startActivity(intent);

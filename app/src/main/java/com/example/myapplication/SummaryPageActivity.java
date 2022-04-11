@@ -25,6 +25,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SummaryPageActivity extends AppCompatActivity {
     private ArrayList<Appointment> myAppointments;
     String USCIDNumber;
+    FirebaseAuth mAuth;
     public static final String TAG = "Firebase Message: ";
 
 
@@ -59,8 +61,19 @@ public class SummaryPageActivity extends AppCompatActivity {
         // enable tool bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        //get firebase instance
+        mAuth = FirebaseAuth.getInstance();
+        if (mAuth == null) Log.d(TAG,"Auth instance is null");
+
         //get current User info - appointments
-        USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
+        FirebaseUser myUser = mAuth.getCurrentUser();
+
+        if (myUser == null) Log.d(TAG,"null user");
+
+        USCIDNumber = myUser.getDisplayName();
+        if (USCIDNumber == null) Log.d(TAG,"USCIDNumber is null");
+
+        Log.d(TAG,USCIDNumber);
         DocumentReference userRef = Database.db.collection("User").document(USCIDNumber);
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
@@ -196,7 +209,9 @@ public class SummaryPageActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent = new Intent(SummaryPageActivity.this,GMapsActivity.class);
                 this.finish();
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
