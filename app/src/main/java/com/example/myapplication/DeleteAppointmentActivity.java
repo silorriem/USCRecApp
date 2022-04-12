@@ -90,7 +90,7 @@ public class DeleteAppointmentActivity extends AppCompatActivity {
                         }
                     }
                 });
-                SendGrid sendGrid = SendGrid.create();
+                SendGrid sendGrid = SendGrid.create("");
 
                 SendGridMail testMail = new SendGridMail();
                 testMail.setFrom("elimorri@usc.edu",null);
