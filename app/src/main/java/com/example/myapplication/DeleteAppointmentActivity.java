@@ -20,8 +20,15 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import uk.co.jakebreen.sendgridandroid.SendGrid;
+import uk.co.jakebreen.sendgridandroid.SendGridMail;
 
 public class DeleteAppointmentActivity extends AppCompatActivity {
     String recCenterName, currDate, currTime, currPrevOrCurr, USCIDNumber;
@@ -68,11 +75,14 @@ public class DeleteAppointmentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 USCIDNumber = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
                 DocumentReference userRef = Database.db.collection("User").document(USCIDNumber);
+                Map appt = (Map) appointment;
+                Map tInt = (Map) appt.get("timeInterval");
+                List<String> waitingList = (List<String>) tInt.get("waitingList");
                 userRef.update("Appointments", FieldValue.arrayRemove(appointment)).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Log.d("Deletion message: ","delete was successful");
+                            Log.d("Deletion message: ","delete was successful...notifying those on waitlist");
                             Toast.makeText(getApplicationContext(),"successfully deleted appointment",Toast.LENGTH_SHORT).show();
                         }
                         else {
@@ -80,6 +90,24 @@ public class DeleteAppointmentActivity extends AppCompatActivity {
                         }
                     }
                 });
+                SendGrid sendGrid = SendGrid.create("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");
+
+                SendGridMail testMail = new SendGridMail();
+                testMail.setFrom("elimorri@usc.edu",null);
+                String subject = "Testing out delete";
+                testMail.setSubject(subject);
+                waitingList.forEach(x->testMail.addRecipient(x,null));
+                testMail.setContent("This is a test for deletion");
+                Single.fromCallable(sendGrid.send(testMail))
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(response -> {
+                            if (response.isSuccessful()) {
+                                Log.d("SendGrid","Response successful");
+                            }
+                            else {
+                                Log.d("SendGrid",response.getErrorMessage());
+                            }
+                        });
                 DeleteAppointmentActivity.this.finish();
                 Intent intent = new Intent(DeleteAppointmentActivity.this,SummaryPageActivity.class);
                 startActivity(intent);

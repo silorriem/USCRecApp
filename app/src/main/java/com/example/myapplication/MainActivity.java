@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -15,6 +18,24 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.schedulers.Schedulers;
+import uk.co.jakebreen.sendgridandroid.SendGrid;
+import uk.co.jakebreen.sendgridandroid.SendGridMail;
+import uk.co.jakebreen.sendgridandroid.SendGridResponse;
+import uk.co.jakebreen.sendgridandroid.SendTask;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -33,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.textViewSignup).setOnClickListener(this);
         findViewById(R.id.buttonLogin).setOnClickListener(this);
+
     }
 
     private void userLogin() {
@@ -83,10 +105,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        if (mAuth.getCurrentUser() == null) {
+        if (mAuth.getCurrentUser() != null) {
             finish();
-            startActivity(new Intent(this,SignUpActivity.class));
+            startActivity(new Intent(this,ProfileActivity.class));
         }
+
     }
 
     @Override
